@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "results",
+  "info": {
+    "name": "Result"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "results"
+    },
+    "date": {
+      "type": "datetime"
+    },
+    "metrics": {
+      "type": "json"
+    },
+    "challenge": {
+      "model": "challenge",
+      "via": "results"
+    },
+    "name": {
+      "type": "string"
+    }
+  }
+}
