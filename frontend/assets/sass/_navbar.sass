@@ -1,0 +1,66 @@
+.navbarfull
+    // font-family: $fuente1
+    display: grid
+    grid-template-columns: 40% 2fr 2fr 2fr 2fr 1fr
+    height: 70px
+    width: 100%
+    justify-items: center
+    align-items: center
+
+    &__store
+        font-size: 34px
+
+    &__logo
+        img
+            height: 50px
+
+    &__item
+
+.navbarmov
+    display: none
+.menumov
+    display: none
+
+@media (max-width: 900px)
+    .navbarfull
+        grid-template-columns: 20% 2fr 2fr 2fr 2fr 1fr
+        &__logo
+            img
+                height: 30px
+
+@media (max-width: 500px)
+    .navbarfull
+        display: none
+    .navbarmov
+        // font-family: $fuente1
+        display: grid
+        grid-template-columns: 80% 20%
+        width: 100%
+        height: 70px
+        // justify-items: center
+        align-items: center
+        padding: 0 20px
+
+        &__store
+            font-size: 34px
+
+        &__logo
+            img
+                height: 50px
+
+        &__item
+            justify-self: center
+            .material-icons
+                font-size: 40px
+
+    .menumov
+        position: absolute
+        right: 0
+        width: 60%
+        background-color: #e20c0c82
+        display: grid
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr
+        justify-items: right
+        grid-row-gap: 15px
+        padding: 15px 30px
+        &__item

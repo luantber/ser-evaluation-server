@@ -1,63 +1,28 @@
-<template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">frontend</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+  div
+    Navbar
+    h1 Speech Emotion Recognition Challenge
+    p This website hosts some challenges, which you can participate in.
+    h2 Features
+    ul
+      li Train your models 
+      li Test your model 
+      li Compare with others in the leaderboard
+      li Compete in a challenge with a deadline 
+    h2 How to Participate
+    p Register in the website and download the dataset partitions:
+    ul
+      li Dataset Training / Evaluation
+      li Test your model with the Test Audios
+      li Check your score in the leaderboard
+      li Send your results for the main challenge 
+    h3 About us
+    p Designed by Luis Bernal Chahuayo and Alvaro Cuno 
+    p Speech Emotion Recognition  ( Kusisqa Project )
+
+    //- img ( src="~/static/" )
+
+    
+
+
 </template>
-
-<script>
-export default {}
-</script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
