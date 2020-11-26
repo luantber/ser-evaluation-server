@@ -9,6 +9,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      // {rel:"stylesheet",href:"https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"},
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/icon?family=Material+Icons',
