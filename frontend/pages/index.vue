@@ -20,7 +20,7 @@
     p Designed by Luis Bernal Chahuayo and Alvaro Cuno 
     p Speech Emotion Recognition  ( Kusisqa Project )
 
-    //- img ( src="~/static/" )
+    img(src="~/static/tesis.png" )
 
     
 

@@ -3,7 +3,8 @@
         .navbarfull
             .navbarfull__logo
                 img(src="~static/logo.png")
-            .navbarfull___item Index
+            .navbarfull___item
+              NuxtLink(to="/") Index
             .navbarfull___item Challenges
             .navbarfull___item Your Submissions
             //- .navbarfull___item Register
@@ -18,7 +19,8 @@
                 span.material-icons(@click="barra()") {{boton}}
         
         .menumov(v-if="boton!=='menu'")
-            .menumov___item Index 
+            .menumov___item
+              NuxtLink(to="/") Index
             .menumov___item Challenges
             .menumov___item Your Submission
             //- .menumov___item Register
