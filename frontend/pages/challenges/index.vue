@@ -1,27 +1,27 @@
 <template lang="pug">
-    div
-        h1 Challenges 
+    div.challenge
+        h1.title.is-2 Challenges
+        p Currently we're supporting the following datasets:         
         
-        ul(v-for="(challenge, index) in $store.state.challenges")
+        .content
+          ul(v-for="(challenge, index) in challenges")
             li 
               Nuxt-link(:to="'/challenges/'+challenge.id")
-                p {{challenge.id }}
-        
+                p {{challenge.name}}
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-
 export default {
   data() {
-    return {}
+    return {
+      challenges: [],
+    }
   },
-  created() {},
-  methods: {
-    ...mapActions('challenges', ['getAll']),
-  },
+
   async fetch() {
-    await this.getAll()
+    const challengesRes = await this.$axios.$get('/challenges')
+
+    this.challenges = challengesRes
   },
 }
 </script>

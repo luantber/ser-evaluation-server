@@ -21,7 +21,7 @@ export default {
   css: ['@/assets/sass/main.sass'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: [{ src: '~plugins/showdown.js' }],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -36,16 +36,13 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/strapi',
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost:1337',
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
-  strapi: {
-    entities: ['challenges'],
-    url: 'http://localhost:1337',
-  },
 }

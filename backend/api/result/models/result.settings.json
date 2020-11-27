@@ -22,8 +22,8 @@
       "type": "json"
     },
     "challenge": {
-      "model": "challenge",
-      "via": "results"
+      "via": "results",
+      "model": "challenge"
     },
     "name": {
       "type": "string"

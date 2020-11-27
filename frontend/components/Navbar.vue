@@ -5,7 +5,8 @@
                 img(src="~static/logo.png")
             .navbarfull___item
               NuxtLink(to="/") Index
-            .navbarfull___item Challenges
+            .navbarfull___item 
+              NuxtLink(to="/challenges") Challenges
             .navbarfull___item Your Submissions
             //- .navbarfull___item Register
             //- .navbarfull___item Login

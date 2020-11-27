@@ -1,6 +1,5 @@
 <template lang="pug">
   div
-    Navbar
     h1.title.is-1 Speech Emotion Recognition Challenge
     p.subtitle This website hosts some challenges, which you can participate in.
     h2.title.is-3 Features
@@ -10,6 +9,9 @@
         li Test your model 
         li Compare with others in the leaderboard
         li Compete in a challenge with a deadline 
+        li 
+          span Take a look 
+          NuxtLink(to="/challenges") the current challenges 
     h2.title.is-3 How to Participate
     p Register in the website and download the dataset partitions:
     .content
@@ -24,7 +26,12 @@
 
     img.index__explanation(src="~/static/tesis.png" )
 
-    Footer
 
 
 </template>
+
+<script>
+export default {
+  layout: 'default',
+}
+</script>
