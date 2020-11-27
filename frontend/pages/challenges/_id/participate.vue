@@ -26,13 +26,20 @@
                                 td fila 2
                 .column
                     p.subtitle Esplicación de este pedazo
-                        .file.has-name.is-boxed.is-warning.is-medium.is-centered
-                            label.file-label
-                                input(class="file-input" type="file" name="resume")
-                                span.file-cta
-                                    span.file-icon
-                                        span.material-icons cloud_upload
-                                    span.file-label Choose a file (.json)
+                    div.field
+                        .control 
+                            center
+                                .select.is-primary
+                                    select 
+                                        option Select your 
+                                        option Opción 2
+                    .file.has-name.is-boxed.is-warning.is-medium.is-centered
+                        label.file-label
+                            input(class="file-input" type="file" name="resume")
+                            span.file-cta
+                                span.file-icon
+                                    span.material-icons cloud_upload
+                                span.file-label Choose a file (.json)
                     br 
                     center
                         button.button.is-dark Enviar
