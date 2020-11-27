@@ -1,35 +1,34 @@
 <template lang="pug">
     div
-        h1 Login
-        div(v-if="this.$strapi.user") Usuario Logeado
-        form
-            
-            input(type="email" required v-model="user.email")
-            input(type="password" required v-model="user.password")
-            button(@click.prevent="login()" type="button") Register
+        div.title(v-if="this.$auth.loggedIn") 
+          p Usuario Logeado
+          Logout
+        template(v-else)
+          h1 Login
+          form.container-small
+            .field
+              input.input(type="email" required v-model="loginData.identifier")
+            .field
+              input.input(type="password" required v-model="loginData.password")
+            center
+              button.button.is-link(@click.prevent="login()" type="button") Login
 </template>
 
 <script>
 export default {
   data() {
     return {
-      user: {
-        email: '',
-        password: '',
+      loginData: {
+        identifier: 'test@mail.com',
+        password: 'testtest',
       },
     }
   },
 
   methods: {
     async login() {
-      try {
-        await this.$strapi.login({
-          identifier: this.user.email,
-          password: this.user.password,
-        })
-      } catch (error) {
-        console.log(error)
-      }
+      const resp = await this.$auth.login({ data: this.loginData })
+      this.$auth.setUser(resp.data.user)
     },
   },
 }

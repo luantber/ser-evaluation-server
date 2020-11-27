@@ -7,11 +7,23 @@
               NuxtLink(to="/") Index
             .navbarfull___item 
               NuxtLink(to="/challenges") Challenges
-            .navbarfull___item Your Submissions
-            //- .navbarfull___item Register
-            //- .navbarfull___item Login
-            .navbarfull___item
-                span.material-icons.navbarfull__store person
+
+            template(v-if="this.$auth.loggedIn")
+              .navbarfull___item Your Submissions
+
+              .navbarfull___item
+                Logout
+
+
+            template(v-else)
+              .navbarfull___item
+                NuxtLink(to="/register") Register
+              .navbarfull___item
+                NuxtLink(to="/Login") Login
+
+
+              //- .navbarfull___item
+              //-     span.material-icons.navbarfull__store person
 
         .navbarmov
             .navbarmov__logo

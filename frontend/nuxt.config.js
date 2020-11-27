@@ -36,6 +36,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    
+    '@nuxtjs/auth'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -45,4 +47,31 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
+
+  auth: {
+    redirect: {
+      login: false,
+      logout: '/',
+      callback: false,
+      home: false,
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: 'http://localhost:1337/auth/local',
+            method: 'post',
+            propertyName: 'jwt',
+          },
+          // logout: { url: '/api/auth/logout', method: 'post' },
+          user: {
+            url: 'http://localhost:1337/users/me',
+            method: 'get',
+            propertyName: false,
+          },
+        },
+        autoFetchUser: false,
+      },
+    },
+  },
 }

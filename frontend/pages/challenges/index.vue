@@ -1,5 +1,5 @@
 <template lang="pug">
-    div.challenge
+    div
         h1.title.is-2 Challenges
         p Currently we're supporting the following datasets:         
         
@@ -17,6 +17,8 @@ export default {
       challenges: [],
     }
   },
+
+  
 
   async fetch() {
     const challengesRes = await this.$axios.$get('/challenges')

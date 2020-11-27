@@ -15,20 +15,17 @@
               table.table.is-fullwidth.is-bordered
                   thead
                       tr
-                          th Título
-                          th Dataset
-                  tbody 
+                          th Username
+                          th Model Name
+                          th Accuracy
+                          th Date 
+                  tbody(v-for="result in challenge.results")
                       tr 
-                          td hola
-                          td hola 2
-                  tbody 
-                      tr 
-                          td hola
-                          td hola 2
-                  tbody 
-                      tr 
-                          td fila 2
-                          td fila 2
+                          td {{ username(result.user) }}
+                          td {{result.name}}
+                          td {{result.metrics.accuracy}}
+                          td {{result.created_at}}
+
 
         
 </template>
@@ -41,18 +38,25 @@ export default {
     return {
       challenge: '',
       error: '',
+      users_challenge: [],
     }
   },
+
+  methods: {
+    username(id) {
+      return this.users_challenge.find((user) => user.id === id).username
+    },
+  },
   async fetch() {
-    // console.log('/challenges/' + this.$route.params.id)
+    const respUsers = await axios.get(
+      'http://localhost:1337/users?results.id=' + this.$route.params.id
+    )
     const resp = await axios.get(
       'http://localhost:1337/challenges/' + this.$route.params.id
     )
-    // console.log(resp.data)
+
+    this.users_challenge = respUsers.data
     this.challenge = resp.data
-    // } catch (error) {
-    //   this.error = error
-    // }
   },
 }
 </script>

@@ -29,14 +29,7 @@
                                 td 
                                     a(:href="challenge.challenge") Download
 
-
-                        
-                        
-                        //- tbody 
-                        //-     tr.is-selected 
-                        //-         td fila 2
-                        //-         td fila 2
-                .column
+                .column(v-if="this.$auth.loggedIn")
                     p.subtitle Here you can send your results: Select between Test ( public ) or Challenge ( private even for you until deadline)
                     div.field
                         .control 
@@ -45,38 +38,43 @@
                                     select 
                                         option Test 
                                         option Challenge
+                    
                     .file.has-name.is-boxed.is-warning.is-medium.is-centered
                         label.file-label
-                            input(class="file-input" type="file" name="resume")
+                            input(class="file-input" type="file" @change="preview")
                             span.file-cta
                                 span.file-icon
                                     span.material-icons cloud_upload
                                 span.file-label Choose a file (.csv)
+                            span.file-name(v-if="this.file") {{this.file.name}}
+                
+                                        
+    
                     br 
                     center
-                        button.button.is-dark Enviar
+                        button.button.is-dark(@click="enviar_file()") Enviar
             br 
             br 
-            br 
-            p.subtitle Your Results
-            
-            table.table.is-fullwidth.is-bordered
-                thead
-                    tr
-                        th Título
-                        th Dataset URL
-                tbody 
-                    tr 
-                        td hola
-                        td hola 2
-                tbody 
-                    tr 
-                        td hola
-                        td hola 2
-                tbody 
-                    tr 
-                        td fila 2
-                        td fila 2
+            br
+            div(v-if="this.$auth.loggedIn")
+                p.subtitle Your Results
+                
+                table.table.is-fullwidth.is-bordered
+                  thead
+                      tr
+                          th Model Name
+                          th Accuracy
+                          th Date 
+                  tbody(v-for="result in challenge.results")
+                      tr 
+                          td {{result.name}}
+                          td {{result.metrics.accuracy}}
+                          td {{result.created_at}}
+            div(v-else)
+                p.is-size-4
+                    NuxtLink(to="/login") Login 
+                    span to Send and check your results and submissions
+
 </template>
 
 <script>
@@ -86,13 +84,41 @@ export default {
   data() {
     return {
       challenge: '',
+      results: '',
+      file: undefined,
     }
+  },
+  methods: {
+    preview(event) {
+      console.log(event.target.files[0])
+      this.file = event.target.files[0]
+    },
+    async enviar_file() {
+      const formData = new FormData()
+      formData.append('file', this.file)
+      formData.append('data', JSON.stringify({ algo: 3 }))
+
+      const resp = await axios({
+        url: 'http://localhost:1337/results',
+        method: 'post',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: this.$auth.$storage.getUniversal('_token.local'),
+        },
+      })
+      console.log(resp.data)
+    },
   },
   async fetch() {
     const resp = await axios.get(
       'http://localhost:1337/challenges/' + this.$route.params.id
     )
+    const respResults = await axios.get(
+      'http://localhost:1337/results?user=' + this.$auth.user.id
+    )
     this.challenge = resp.data
+    this.results = respResults.data
   },
 }
 </script>

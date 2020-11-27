@@ -1,7 +1,6 @@
 <template lang="pug">
     div
-      Navbar
-      br
+
       center
         h1.title.is-2 Register
       form.container-small
