@@ -64,7 +64,8 @@
                       tr
                           th Model Name
                           th Accuracy
-                          th Date 
+                          th Date
+                          th tipo ( test, challenge)
                   tbody(v-for="result in challenge.results")
                       tr 
                           td {{result.name}}
