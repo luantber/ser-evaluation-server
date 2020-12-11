@@ -51,6 +51,7 @@ export const findOneMe = async (req, res) => {
 export const addResult = async (req, res) => {
   try {
     // const newChallenge = new Challenge(req.body);
+    console.log(req);
     const user = await User.findById(req.user._id);
     const challenge = await Challenge.findById(req.body.id);
     const result = await new Result(req.body.result);
