@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 
 import ChallengeRoutes from "./routes/challenge.route";
-import UserRoutes from "./routes/user.route";
+import UserRoutes from "./routes/users.route";
 import PassportRoutes from "./routes/passport.route";
 
 import { adminBro, routerAdminBro } from "./adminbro";

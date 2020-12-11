@@ -12,17 +12,7 @@ const challengeSchema = new Schema(
       type: String,
     },
 
-    results: [
-      new Schema({
-        name: String,
-        metrics: [
-          {
-            name: String,
-            result: Number,
-          },
-        ],
-      }),
-    ],
+    results: [{ type: Schema.Types.ObjectId, ref: "Result" }],
 
     train: {
       type: String,

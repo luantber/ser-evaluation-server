@@ -12,6 +12,8 @@ const usuarioSchema = new Schema(
       required: true,
       // select: false,
     },
+
+    results: [{ type: Schema.Types.ObjectId, ref: "Result" }],
   },
   {
     // versionKey: false,
