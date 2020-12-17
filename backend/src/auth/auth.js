@@ -10,10 +10,15 @@ passport.use(
     {
       usernameField: "email",
       passwordField: "password",
+      passReqToCallback: true,
     },
-    async (email, password, done) => {
+    async (req, email, password, done) => {
       try {
-        const user = await User.create({ email, password });
+        const user = await User.create({
+          email,
+          password,
+          username: req.body.username,
+        });
         return done(null, user);
       } catch (error) {
         done(error);
@@ -38,6 +43,7 @@ passport.use(
         }
 
         const validate = await user.isValidPassword(password);
+        // console.log(user, validate);
 
         if (!validate) {
           return done(null, false, { message: "User o Password Wrong" });

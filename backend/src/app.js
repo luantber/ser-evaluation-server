@@ -17,19 +17,18 @@ app.set("port", process.env.PORT || 1337);
 // CORS
 app.use(cors());
 
-app.use(fileUpload({ parseNested: true }));
+// Admin Bro
+if ((process.env.DEBUG || "FALSE") === "TRUE") {
+  app.use(adminBro.options.rootPath, routerAdminBro);
+}
 
 // Json
 app.use(express.json());
+app.use(fileUpload({ debug: true }));
 
 // Routes
 app.use("/", PassportRoutes);
 app.use("/users", UserRoutes);
 app.use("/challenges", ChallengeRoutes);
-
-// Admin Bro
-if ((process.env.DEBUG || "FALSE") === "TRUE") {
-  app.use(adminBro.options.rootPath, routerAdminBro);
-}
 
 export default app;

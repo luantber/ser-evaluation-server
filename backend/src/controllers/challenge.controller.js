@@ -21,9 +21,18 @@ export const findAll = async (req, res) => {
 export const findOne = async (req, res) => {
   try {
     // console.log(req.params.id);
-    const challenge = await Challenge.findById(req.params.id).populate(
-      "results"
-    );
+    const challenge = await Challenge.findById(req.params.id).populate({
+      path: "results",
+      populate: [
+        {
+          path: "user",
+          model: "User",
+        },
+        { path: "metrics" },
+      ],
+    });
+
+    // 5fd41d16c16da7851a7ae41d
 
     // console.log("algo", challenge);
     res.json(challenge);

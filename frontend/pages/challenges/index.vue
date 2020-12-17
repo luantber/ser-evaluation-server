@@ -6,7 +6,7 @@
         .content
           ul(v-for="(challenge, index) in challenges")
             li 
-              Nuxt-link(:to="'/challenges/'+challenge.id")
+              Nuxt-link(:to="'/challenges/'+challenge._id")
                 p {{challenge.name}}
 </template>
 
