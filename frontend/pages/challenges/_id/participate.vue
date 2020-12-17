@@ -78,6 +78,22 @@ div
 import axios from 'axios'
 export default {
   layout: 'default',
+  async fetch() {
+    const resp = await axios.get(
+      'http://localhost:1337/challenges/' + this.$route.params.id
+    )
+    this.challenge = resp.data
+    // console.log(this.challenge)
+    const respResults = await axios.get(
+      'http://localhost:1337/challenges/' + this.$route.params.id + '/me',
+      {
+        headers: {
+          Authorization: this.$auth.local.token,
+        },
+      }
+    )
+    this.results = respResults.data
+  },
   data() {
     return {
       results: '',
@@ -111,22 +127,6 @@ export default {
       })
       console.log(resp.data)
     },
-  },
-  async fetch() {
-    const resp = await axios.get(
-      'http://localhost:1337/challenges/' + this.$route.params.id
-    )
-    this.challenge = resp.data
-    // console.log(this.challenge)
-    const respResults = await axios.get(
-      'http://localhost:1337/challenges/' + this.$route.params.id + '/me',
-      {
-        headers: {
-          Authorization: this.$auth.local.token,
-        },
-      }
-    )
-    this.results = respResults.data
   },
 }
 </script>

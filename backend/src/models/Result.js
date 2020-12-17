@@ -6,7 +6,7 @@ const resultSchema = new Schema(
     mode: {
       type: String,
       required: true,
-      default: "test"
+      default: "test",
     },
     metrics: [
       {

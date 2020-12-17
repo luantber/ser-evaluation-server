@@ -3,7 +3,6 @@ import { Router } from "express";
 const router = Router();
 import passport from "passport";
 
-
 // GET productos/
 router.get(
   "/me",

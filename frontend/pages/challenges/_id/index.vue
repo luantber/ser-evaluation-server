@@ -34,6 +34,17 @@ div
 import axios from 'axios'
 export default {
   layout: 'default',
+  async fetch() {
+    // const respUsers = await axios.get(
+    //   'http://localhost:1337/users?results.id=' + this.$route.params.id
+    // )
+    const resp = await axios.get(
+      'http://localhost:1337/challenges/' + this.$route.params.id
+    )
+
+    // this.users_challenge = respUsers.data
+    this.challenge = resp.data
+  },
   data() {
     return {
       challenge: '',
@@ -46,17 +57,6 @@ export default {
     username(id) {
       return this.users_challenge.find((user) => user._id === id).username
     },
-  },
-  async fetch() {
-    // const respUsers = await axios.get(
-    //   'http://localhost:1337/users?results.id=' + this.$route.params.id
-    // )
-    const resp = await axios.get(
-      'http://localhost:1337/challenges/' + this.$route.params.id
-    )
-
-    // this.users_challenge = respUsers.data
-    this.challenge = resp.data
   },
 }
 </script>

@@ -1,6 +1,6 @@
 <template lang="pug">
-    div
-        button.button.is-link(@click="logout()") Logout
+div
+  button.button.is-link(@click='logout()') Logout
 </template>
 
 <script>

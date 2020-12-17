@@ -5,5 +5,4 @@ const database = {
   mongodbUri: process.env.MONGODB_URI,
 };
 
-
-export {database};
+export { database };
