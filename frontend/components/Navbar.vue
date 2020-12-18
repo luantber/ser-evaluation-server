@@ -18,7 +18,7 @@ div
       .navbarfull___item
         NuxtLink(to='/register') Register
       .navbarfull___item
-        NuxtLink(to='/Login') Login
+        NuxtLink(to='/login') Login
 
       //- .navbarfull___item
       //-     span.material-icons.navbarfull__store person

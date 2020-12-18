@@ -41,11 +41,10 @@ div
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '~/plugins/axios'
 export default {
   data() {
     return {
-      algo: 'asd',
       user: {
         username: '',
         email: '',
@@ -59,13 +58,15 @@ export default {
     async register() {
       // console.log('Apo')
       try {
-        await axios.post('http://localhost:1337/signup', {
+        await axios.post('/signup', {
           email: this.user.email,
           username: this.user.username,
           password: this.user.password,
         })
 
-        this.$router.push('/')
+        await this.$auth.login({
+          data: { email: this.user.email, password: this.user.password },
+        })
       } catch (error) {
         this.error = error
         console.log('name', error)

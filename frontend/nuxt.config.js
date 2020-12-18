@@ -1,7 +1,7 @@
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'frontend',
+    title: 'SER Challenge',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -36,14 +36,16 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-
-    '@nuxtjs/auth',
+    '@nuxtjs/auth-next',
   ],
+  env: {
+    baseUrl: process.env.BASE_URL_API || 'http://localhost:1337',
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {
-    baseURL: 'http://localhost:1337',
-  },
+  // axios: {
+  //   baseURL: 'http://localhost:1337',
+  // },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},

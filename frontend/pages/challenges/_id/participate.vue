@@ -34,9 +34,9 @@ div
           .control 
             center
               .select.is-primary
-                select 
-                  option Test
-                  option Challenge
+                select(v-model='result.mode')
+                  option(value='test') Test
+                  option(value='challenge') Challenge
 
         .file.has-name.is-boxed.is-warning.is-medium.is-centered
           label.file-label
@@ -50,6 +50,8 @@ div
         br 
         center
           button.button.is-dark(@click='enviar_file()') Enviar
+
+        p(v-if='enviando') Estamos cargando los resultados.
     br 
     br 
     br
@@ -63,11 +65,12 @@ div
             th Accuracy
             th Date
             th tipo ( test, challenge)
-        tbody(v-for='result in challenge.results')
+        tbody(v-for='result in results')
           tr 
             td {{ result.name }}
             td {{ result.metrics.find((m) => m.name === "accuracy") && result.metrics.find((m) => m.name === "accuracy").result }}
             td {{ result.updatedAt }}
+            td {{ result.mode }}
 
     div(v-else)
       p.is-size-4
@@ -76,30 +79,34 @@ div
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '~/plugins/axios'
 export default {
   layout: 'default',
   async fetch() {
-    const resp = await axios.get(
-      'http://localhost:1337/challenges/' + this.$route.params.id
-    )
-    this.challenge = resp.data
+    const callresp = axios.get('/challenges/' + this.$route.params.id)
+
     // console.log(this.challenge)
-    const respResults = await axios.get(
-      'http://localhost:1337/challenges/' + this.$route.params.id + '/me',
+    const callrespResults = axios.get(
+      '/challenges/' + this.$route.params.id + '/me',
       {
         headers: {
-          Authorization: this.$auth.local.token,
+          Authorization: this.$auth.strategy.token.get(),
         },
       }
     )
-    this.results = respResults.data
+
+    const resp = await callresp
+    const respResults = await callrespResults
+
+    this.challenge = await resp.data
+    this.results = await respResults.data.results
   },
   data() {
     return {
       results: '',
       file: undefined,
       challenge: {},
+      enviando: false,
       result: {
         mode: 'test',
         name: 'CNN OWWO',
@@ -112,13 +119,14 @@ export default {
       this.file = event.target.files[0]
     },
     async enviar_file() {
+      this.enviando = true
       const formData = new FormData()
       formData.append('file', this.file)
       formData.append('id', this.$route.params.id)
       formData.append('result', JSON.stringify(this.result))
 
       const resp = await axios({
-        url: 'http://localhost:1337/challenges',
+        url: '/challenges',
         method: 'post',
         data: formData,
         headers: {
@@ -127,6 +135,22 @@ export default {
         },
       })
       console.log(resp.data)
+
+      // console.log(this.challenge)
+      const respResults = await axios.get(
+        '/challenges/' + this.$route.params.id + '/me',
+        {
+          headers: {
+            Authorization: this.$auth.strategy.token.get(),
+          },
+        }
+      )
+
+      this.results.splice(0, this.results.length)
+      for (const res of respResults.data.results) {
+        this.results.push(res)
+      }
+      this.enviando = false
     },
   },
 }

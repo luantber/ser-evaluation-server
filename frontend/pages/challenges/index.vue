@@ -11,11 +11,15 @@ div
 </template>
 
 <script>
+import axios from '~/plugins/axios'
 export default {
   async fetch() {
-    const challengesRes = await this.$axios.$get('/challenges')
-
-    this.challenges = challengesRes
+    try {
+      const challengesRes = await axios.get('/challenges')
+      this.challenges = challengesRes.data
+    } catch (error) {
+      console.log(error)
+    }
   },
   data() {
     return {

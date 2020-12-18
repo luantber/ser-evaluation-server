@@ -24,7 +24,7 @@ if ((process.env.DEBUG || "FALSE") === "TRUE") {
 
 // Json
 app.use(express.json());
-app.use(fileUpload({ debug: true }));
+app.use(fileUpload({ debug: false }));
 
 // Routes
 app.use("/", PassportRoutes);

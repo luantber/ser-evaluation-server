@@ -20,7 +20,6 @@ export const findAll = async (req, res) => {
 
 export const findOne = async (req, res) => {
   try {
-    // console.log(req.params.id);
     const challenge = await Challenge.findById(req.params.id).populate({
       path: "results",
       populate: [
@@ -32,9 +31,6 @@ export const findOne = async (req, res) => {
       ],
     });
 
-    // 5fd41d16c16da7851a7ae41d
-
-    // console.log("algo", challenge);
     res.json(challenge);
   } catch (error) {
     console.log(error);
@@ -44,14 +40,12 @@ export const findOne = async (req, res) => {
 
 export const findOneMe = async (req, res) => {
   try {
-    const challenges = await (await Challenge.findById(req.params.id)).populate(
-      {
-        path: "results",
-        match: {
-          user: req.user._id,
-        },
-      }
-    );
+    const challenges = await Challenge.findById(req.params.id).populate({
+      path: "results",
+      match: {
+        user: req.user._id,
+      },
+    });
 
     res.json(challenges);
   } catch (error) {
@@ -99,20 +93,22 @@ export const addResult = async (req, res) => {
     // resultFile.mv(pathFile);
 
     // const newChallenge = new Challenge(req.body);
-    console.log(metrics);
+
     const user = await User.findById(req.user._id);
-    const result = await new Result({ metrics, ...resultReq });
+    const result = new Result({ metrics, ...resultReq });
 
     result.challenge = challenge;
-    result.user = req.user;
+    result.user = req.user._id;
     await result.save();
 
-    await challenge.results.push(result);
-    challenge.save();
-
-    await user.results.push(result);
-    user.save();
-
+    challenge.results.push(result._id);
+    await challenge.save();
+    // console.log("asdasd ***************+");
+    user.results.push(result._id);
+    // console.log("asdasd");
+    await user.save();
+    // console.log("asdasd xxxxxx");
+    // console.log(challenge);
     res.json(challenge);
   } catch (error) {
     console.log(error);
