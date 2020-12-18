@@ -24,7 +24,7 @@ div
               th Date
           tbody(v-for='result in challenge.results')
             tr 
-              td {{ result.user }}
+              td {{ result.user.username }}
               td {{ result.name }}
               td {{ result.metrics.find((m) => m.name === "accuracy") && result.metrics.find((m) => m.name === "accuracy").result }}
               td {{ result.updatedAt }}
@@ -37,12 +37,14 @@ export default {
   async fetch() {
     const resp = await axios.get('/challenges/' + this.$route.params.id)
     this.challenge = resp.data
+    this.challenge.results = this.challenge.results.sort(
+      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+    )
   },
   data() {
     return {
       challenge: '',
       error: '',
-      
     }
   },
 }

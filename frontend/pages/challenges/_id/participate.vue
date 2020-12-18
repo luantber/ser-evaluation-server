@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   section
-    h1.title.is-2 Ravdess Challenge
+    h1.title.is-2 {{ challenge.name }}
     .columns
       .column 
         p.subtitle Train your model locally using "train" and "validation". Then download the "test" set and compare your model with other researchers. Finally, use "challenge" to compete on an unbiased way. ( The challenge results will be publish after: 02/02/2021 )
@@ -31,12 +31,15 @@ div
       .column(v-if='this.$auth.loggedIn')
         p.subtitle Here you can send your results: Select between Test ( public ) or Challenge ( private even for you until deadline)
         .field
+          .control
+          label.label Nombre de Modelo
+          input.input.is-primary(type='text', v-model='result.name')
+        .field
           .control 
-            center
-              .select.is-primary
-                select(v-model='result.mode')
-                  option(value='test') Test
-                  option(value='challenge') Challenge
+            .select.is-primary
+              select(v-model='result.mode')
+                option(value='test') Test
+                option(value='challenge') Challenge
 
         .file.has-name.is-boxed.is-warning.is-medium.is-centered
           label.file-label
@@ -99,7 +102,9 @@ export default {
     const respResults = await callrespResults
 
     this.challenge = await resp.data
-    this.results = await respResults.data.results
+    this.results = await respResults.data.results.sort(
+      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+    )
   },
   data() {
     return {
@@ -109,7 +114,7 @@ export default {
       enviando: false,
       result: {
         mode: 'test',
-        name: 'CNN OWWO',
+        name: 'Model CNN',
       },
     }
   },

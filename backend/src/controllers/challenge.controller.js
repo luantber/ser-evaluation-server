@@ -10,6 +10,7 @@ export const findAll = async (req, res) => {
     const challenges = await Challenge.find().populate({
       path: "results",
       match: { mode: "test" },
+      // options: { sort: { updatedAt: "asc" } },
     });
 
     res.json(challenges);

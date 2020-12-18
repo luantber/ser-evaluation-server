@@ -7,7 +7,7 @@ const router = Router();
 router.post(
   "/signup",
   passport.authenticate("signup", { session: false }),
-  async (req, res ) => {
+  async (req, res) => {
     try {
       res.json({
         message: "Signup successful",
