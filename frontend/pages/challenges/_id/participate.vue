@@ -66,8 +66,9 @@ div
         tbody(v-for='result in challenge.results')
           tr 
             td {{ result.name }}
-            td {{ result.metrics.accuracy }}
-            td {{ result.created_at }}
+            td {{ result.metrics.find((m) => m.name === "accuracy") && result.metrics.find((m) => m.name === "accuracy").result }}
+            td {{ result.updatedAt }}
+
     div(v-else)
       p.is-size-4
         NuxtLink(to='/login') Login
@@ -114,10 +115,10 @@ export default {
       const formData = new FormData()
       formData.append('file', this.file)
       formData.append('id', this.$route.params.id)
-      formData.append('data', JSON.stringify(this.result))
+      formData.append('result', JSON.stringify(this.result))
 
       const resp = await axios({
-        url: 'http://localhost:1337/results',
+        url: 'http://localhost:1337/challenges',
         method: 'post',
         data: formData,
         headers: {

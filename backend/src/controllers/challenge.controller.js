@@ -63,7 +63,9 @@ export const findOneMe = async (req, res) => {
 export const addResult = async (req, res) => {
   try {
     // Parseo de req
+    console.log(req.body);
     const resultReq = JSON.parse(req.body.result);
+    console.log(resultReq);
 
     // Si no existen archivos return 400
     if (!req.files || Object.keys(req.files).length === 0) {
