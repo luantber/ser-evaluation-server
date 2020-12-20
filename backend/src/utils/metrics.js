@@ -16,11 +16,15 @@ function accuracy(matrixConfusion) {
 export const get_metrics = async (
   bufferResult,
   bufferReal,
-  labels = [1, 2, 3, 4, 5]
+  
 ) => {
   // console.log(bufferReal, bufferResult);
   const jsonResult = await csv().fromString(bufferResult.toString());
   const jsonReal = await csv().fromString(bufferReal.toString());
+
+  const labels = [ ... new Set(jsonReal.map(item => Number(item.emotion) ))  ]
+  console.log(jsonReal);
+  console.log(jsonResult);
 
   let matrixConfusion = {};
 

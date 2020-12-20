@@ -28,6 +28,13 @@ const challengeSchema = new Schema(
       type: String,
     },
 
+    secret_test: {
+      type: String,
+    },
+    secret_challenge: {
+      type: String,
+    },
+
     //productos: [{ type: Schema.Types.ObjectId, ref: "Producto" }],
   },
   {

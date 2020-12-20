@@ -87,7 +87,13 @@ export const addResult = async (req, res) => {
     const bufferResult = req.files.file.data;
     const bufferReal = await fs.readFile(
       // path.resolve("/secret", challenge.name, req.body.result.mode + ".csv")
-      path.resolve("files/secret", "test", resultReq.mode + ".csv")
+      // path.resolve("files/secret", "test", resultReq.mode + ".csv")
+      path.resolve(
+        "files/secret",
+        resultReq.mode === "test"
+          ? challenge.secret_test
+          : challenge.secret_challenge
+      )
     );
 
     const metrics = await get_metrics(bufferResult, bufferReal);

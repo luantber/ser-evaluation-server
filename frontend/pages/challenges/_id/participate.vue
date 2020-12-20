@@ -152,7 +152,9 @@ export default {
       )
 
       this.results.splice(0, this.results.length)
-      for (const res of respResults.data.results) {
+      for (const res of respResults.data.results.sort(
+        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+      )) {
         this.results.push(res)
       }
       this.enviando = false
