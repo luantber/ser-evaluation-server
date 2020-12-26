@@ -1,0 +1,42 @@
+name: Deploy All
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git pull
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: cd /home/rocoto/ser-evaluation-server/ && git pull
+          host: ${{ secrets.ROCOTO_HOST }}
+          username: ${{ secrets.ROCOTO_SSH_USER }}
+          password: ${{ secrets.ROCOTO_SSH_PASSWORD }}
+
+      - name: Build and Deploy BACKEND
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: source ~/.nvm/nvm.sh && cd /home/rocoto/ser-evaluation-server/backend && npm install && npm run build
+          host: ${{ secrets.ROCOTO_HOST }}
+          username: ${{ secrets.ROCOTO_SSH_USER }}
+          password: ${{ secrets.ROCOTO_SSH_PASSWORD }}
+
+      - name: Build and Deploy FRONTEND
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: source ~/.nvm/nvm.sh && cd /home/rocoto/ser-evaluation-server/frontend && npm install && npm run build
+          host: ${{ secrets.ROCOTO_HOST }}
+          username: ${{ secrets.ROCOTO_SSH_USER }}
+          password: ${{ secrets.ROCOTO_SSH_PASSWORD }}
+
+      - name: Restart PM2
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: source ~/.nvm/nvm.sh && cd /home/rocoto/ser-evaluation-server/ && pm2 restart ecosystem.config.js
+          host: ${{ secrets.ROCOTO_HOST }}
+          username: ${{ secrets.ROCOTO_SSH_USER }}
+          password: ${{ secrets.ROCOTO_SSH_PASSWORD }}
