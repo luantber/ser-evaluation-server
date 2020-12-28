@@ -4,14 +4,35 @@ div
     p Usuario Logeado
     Logout
   template(v-else)
-    h1 Login
     form.container-small
       .field
-        input.input(type='email', required, v-model='loginData.email')
+        .label Email
+
+        input.input(
+          type='email',
+          placeholder='email',
+          required,
+          name='email',
+          v-model='loginData.email'
+        )
       .field
-        input.input(type='password', required, v-model='loginData.password')
+        .label Password
+
+        input.input(
+          type='password',
+          placeholder='password',
+          required,
+          name='password',
+          v-model='loginData.password'
+        )
       center
         button.button.is-link(@click.prevent='login()', type='button') Login
+
+    p
+      ul.has-text-danger(v-for='error in errores')
+        li {{ error }}
+    p If you don't have an account.
+      NuxtLink(to='/register') Register
 </template>
 
 <script>
@@ -19,15 +40,23 @@ export default {
   data() {
     return {
       loginData: {
-        email: 'test100@mail.com',
-        password: 'test',
+        email: '',
+        password: '',
       },
+      errores: [],
     }
   },
 
   methods: {
     async login() {
-      await this.$auth.login({ data: this.loginData })
+      try {
+        await this.$auth.login({ data: this.loginData })
+      } catch (error) {
+        console.log(error)
+        this.errores = []
+        this.errores.push('User or pass wrong')
+      }
+
       // this.$auth.setUser(resp.data.user)
     },
   },

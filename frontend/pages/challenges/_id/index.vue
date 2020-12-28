@@ -10,6 +10,7 @@ div
         :options='{ emoji: true }'
       ) 
       NuxtLink(:to='$route.path + "/participate"')
+        br
         button.button.is-link.is-light Send your results
 
       br

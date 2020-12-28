@@ -29,7 +29,8 @@ router.post("/login", async (req, res, next) => {
 
         const error = new Error("An error occurred. " + info.message);
 
-        return next(error);
+        // return next(error);
+        return res.status(400).json(error);
       }
 
       req.login(user, { session: false }, async (error) => {
@@ -41,7 +42,7 @@ router.post("/login", async (req, res, next) => {
         return res.json({ token });
       });
     } catch (error) {
-      return next(error);
+      return res.status(400).json(error);
     }
   })(req, res, next);
 });

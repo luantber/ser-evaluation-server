@@ -2,9 +2,9 @@
 div
   .navbarfull
     .navbarfull__logo
-      img(src='~static/logo.png')
-    .navbarfull___item
-      NuxtLink(to='/') Index
+      NuxtLink(to='/')
+        img(src='~static/logo_nuevo.jpg')
+
     .navbarfull___item 
       NuxtLink(to='/challenges') Challenges
 
@@ -25,13 +25,12 @@ div
 
   .navbarmov
     .navbarmov__logo
-      img(src='~static/logo.png')
+      NuxtLink(to='/')
+        img(src='~static/logo_nuevo.jpg')
     .navbarmov__item
       span.material-icons(@click='barra()') {{ boton }}
 
   .menumov(v-if='boton !== "menu"')
-    .menumov___item
-      NuxtLink(to='/') Index
     .menumov___item Challenges
     .menumov___item Your Submission
     //- .menumov___item Register

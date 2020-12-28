@@ -22,7 +22,8 @@ div
       li Send your results for the main challenge
   h3.title.is-3 About us
   p Designed by Luis Bernal Chahuayo and Alvaro Cuno
-  p Speech Emotion Recognition ( Kusisqa Project )
+  p Speech Emotion Recognition
+    a(href='http://kusisqa.unsa.edu.pe/') (Kusisqa Project)
 
   img.index__explanation(src='~/static/tesis.png')
 </template>
