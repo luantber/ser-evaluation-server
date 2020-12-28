@@ -6,7 +6,24 @@ import glob
 
 from zipfile import ZipFile
 
+'''
+    Esta clase busca los siguientes archivos: 
+    validation_temp.csv 
+    train_temp.csv , etc... 
 
+    En cada archivo Debe estar:
+
+    file,emotion
+    ../../datasets/ravdess/Audio_Speech_Actors_01-24/Actor_17/03-01-02-01-02-01-17.wav,1
+    ../../datasets/ravdess/Audio_Speech_Actors_01-24/Actor_07/03-01-06-01-02-02-07.wav,5
+    ../../datasets/ravdess/Audio_Speech_Actors_01-24/Actor_21/03-01-02-02-02-01-21.wav,1
+    ../../datasets/ravdess/Audio_Speech_Actors_01-24/Actor_14/03-01-05-01-02-01-14.wav,4
+    ../../datasets/ravdess/Audio_Speech_Actors_01-24/Actor_19/03-01-05-01-01-02-19.wav,4
+
+    Se leerá y se zipearán los audios 
+
+
+'''
 class Generator():
     def __init__(self, input_folder, output_folder, name):
 
@@ -56,13 +73,18 @@ class Generator():
             print("No existe" + self.output_folder_compose + " ... Creando")
 
     def deploy(self):
+
+        # print(self.output_folder_compose)
+
         files_found = os.listdir(self.output_folder_compose)
+
+        # print(files_found)
 
         if not files_found:
             raise Exception(
                 "No se encontraron archivos en la carpeta:  " + os.abspath(self.output_folder_compose))
 
-        # Para cada modo
+        # Para cada modo Crear Un ZIP  ( cahllenge_temp.csv , ... etc )
         for k in self.modes:
 
             csv_temp = os.path.join(self.output_folder_compose, k+"_temp.csv")
@@ -114,5 +136,5 @@ class Generator():
                     self.output_folder_compose, k+"_answers.csv"), index=False)
 
         # Clean temporal files
-        for f in glob.glob(os.path.join(self.output_folder_compose, "*_temp.csv")):
-            os.remove(f)
+        # for f in glob.glob(os.path.join(self.output_folder_compose, "*_temp.csv")):
+        #     os.remove(f)

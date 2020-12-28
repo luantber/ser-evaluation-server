@@ -77,7 +77,7 @@ div
 
     div(v-else)
       p.is-size-4
-        NuxtLink(to='/login') Login
+        NuxtLink(to='/login') Log in 
         span to Send and check your results and submissions
 </template>
 
@@ -86,25 +86,32 @@ import axios from '~/plugins/axios'
 export default {
   layout: 'default',
   async fetch() {
-    const callresp = axios.get('/challenges/' + this.$route.params.id)
+    try {
+      const callresp = axios.get('/challenges/' + this.$route.params.id)
 
-    // console.log(this.challenge)
-    const callrespResults = axios.get(
-      '/challenges/' + this.$route.params.id + '/me',
-      {
-        headers: {
-          Authorization: this.$auth.strategy.token.get(),
-        },
+      // console.log(this.challenge)
+
+      if (this.$auth.loggedIn) {
+        const callrespResults = axios.get(
+          '/challenges/' + this.$route.params.id + '/me',
+          {
+            headers: {
+              Authorization: this.$auth.strategy.token.get(),
+            },
+          }
+        )
+        const respResults = await callrespResults
+        this.results = await respResults.data.results.sort(
+          (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+        )
       }
-    )
 
-    const resp = await callresp
-    const respResults = await callrespResults
+      const resp = await callresp
 
-    this.challenge = await resp.data
-    this.results = await respResults.data.results.sort(
-      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-    )
+      this.challenge = await resp.data
+    } catch (error) {
+      console.log(error)
+    }
   },
   data() {
     return {
