@@ -5,7 +5,7 @@ import pandas as pd
 import torch
 import torchaudio
 
-
+import math
 import shutil
 from zipfile import ZipFile
 '''
@@ -24,9 +24,10 @@ class Generator():
     Los resultados se ubicarán en /output/ravdes/ 
     '''
 
-    def __init__(self, input_path, output_folder, name_dataset):
+    def __init__(self, input_path, input_folder, output_folder, name_dataset):
 
         self.input_path = input_path  # CSV path
+        self.input_folder = input_folder
         self.name_dataset = name_dataset  # nombre dataset (ravdess)
         self.output_folder = os.path.join(
             output_folder, self.name_dataset)  # Where to locate the output files
@@ -73,23 +74,24 @@ class Generator():
     """
 
     def __transform(self):
-        os.makedirs(self.output_folder, "temp")
+        if not os.path.exists("temp"):
+            os.makedirs("temp")
 
         data = pd.read_csv(self.input_path)
-        data = data.sample(frac=1)
-        # data = data.sample(frac=1).reset_index(drop=True)
+        # data = data.sample(frac=1)
+        data = data.sample(frac=1, random_state=52).reset_index(drop=True)
 
         # Aquí irán operaciones para transformar los audios:
         for i in range(len(data)):
 
-            name_file = data.loc[i, "file"]
+            name_file = os.path.join(self.input_folder, data.loc[i, "file"])
 
             audio, sr = torchaudio.load(name_file)
 
-            nuevo_name = "temp/" + str(i) + ".wav"
+            nuevo_name = str(i) + ".wav"
             data.loc[i, "file"] = nuevo_name
 
-            torchaudio.save(nuevo_name, audio, sr)
+            torchaudio.save("temp/"+nuevo_name, audio, sr)
 
         return data
 
@@ -97,17 +99,19 @@ class Generator():
         size = len(data)
         for keyMode in self.modes:
             # Esta funcion obtiene los primeros  n% de size
-            partition = data.head(size * self.modes[keyMode]["percentage"])
+            partition = data.head(
+                math.ceil(size * self.modes[keyMode]["percentage"]))
             # labels
             if self.modes[keyMode]["labels"]:
                 # Pass with all features
-                partition.to_csv("temp/"+keyMode + ".csv")
+                partition.to_csv("temp/"+keyMode + ".csv", index=False)
             else:
-                partition["file"].to_csv("temp/"+keyMode + ".csv")
-                partition.to_csv("temp/"+keyMode + "_answers.csv")
+                partition["file"].to_csv("temp/"+keyMode + ".csv", index=False)
+                partition.to_csv("temp/"+keyMode + "_answers.csv", index=False)
 
-            data.drop(partition.index)
+            data = data.drop(partition.index)
 
+        print(len(data))
         assert(len(data) == 0)
 
     def __create_bundles(self):
@@ -116,19 +120,30 @@ class Generator():
             csv_file = "temp/"+keyMode + ".csv"
             data = pd.read_csv(csv_file)
 
+            # shutil.copy(
+            #     csv_file,
+            #     self.output_folder
+            # )
+
+            if not self.modes[keyMode]["labels"]:
+                shutil.copy(
+                    "temp/"+keyMode + "_answers.csv",
+                    self.output_folder
+                )
+
             # Crear audios temporal
-            os.makedirs(os.path.join("temp", "audios"))
+            # if not os.path.exists(os.path.join("temp", "audios")):
+            #     os.makedirs(os.path.join("temp", "audios"))
 
             # zip object
-            zipObj = ZipFile("temp/" + keyMode + ".zip", 'w')
+            zipObj = ZipFile(os.path.join(
+                self.output_folder, keyMode + ".zip"), 'w')
 
             # add Audios
             for i in range(len(data)):
-                shutil.copy(
-                    "temp/" + data.loc[i, "file"],
-                    "temp/audios"
-                )
-                zipObj.write("temp/audios", "audios/" + data.loc[i, "file"])
+
+                zipObj.write(
+                    "temp/" + data.loc[i, "file"], "audios/" + data.loc[i, "file"])
 
             # add CSV
             zipObj.write("temp/"+keyMode + ".csv", keyMode + ".csv")
