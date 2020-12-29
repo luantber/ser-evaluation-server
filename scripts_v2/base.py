@@ -5,6 +5,9 @@ import pandas as pd
 import torch
 import torchaudio
 
+
+import shutil
+from zipfile import ZipFile
 '''
 Esta clase leera un archivo inicial .csv de la forma:
 
@@ -24,14 +27,14 @@ class Generator():
     def __init__(self, input_path, output_folder, name_dataset):
 
         self.input_path = input_path  # CSV path
-        self.name_dataset = name_dataset
+        self.name_dataset = name_dataset  # nombre dataset (ravdess)
         self.output_folder = os.path.join(
             output_folder, self.name_dataset)  # Where to locate the output files
 
         self.modes = {
             'train': {
                 "percentage": 0.55,
-                "labels": True
+                "labels": True,
             },
             'validation': {
                 "percentage": 0.15,
@@ -88,10 +91,53 @@ class Generator():
 
             torchaudio.save(nuevo_name, audio, sr)
 
-    def generate_partitions(self):
-        end = 0
-        suma = 0
-        for k in self.modes:
-            begin = int(end)
-            end = int(begin + self.modes[k]["percentage"]* len(files_wav))    
-    
+        return data
+
+    def __generate_partitions(self, data):
+        size = len(data)
+        for keyMode in self.modes:
+            # Esta funcion obtiene los primeros  n% de size
+            partition = data.head(size * self.modes[keyMode]["percentage"])
+            # labels
+            if self.modes[keyMode]["labels"]:
+                # Pass with all features
+                partition.to_csv("temp/"+keyMode + ".csv")
+            else:
+                partition["file"].to_csv("temp/"+keyMode + ".csv")
+                partition.to_csv("temp/"+keyMode + "_answers.csv")
+
+            data.drop(partition.index)
+
+        assert(len(data) == 0)
+
+    def __create_bundles(self):
+        for keyMode in self.modes:
+
+            csv_file = "temp/"+keyMode + ".csv"
+            data = pd.read_csv(csv_file)
+
+            # Crear audios temporal
+            os.makedirs(os.path.join("temp", "audios"))
+
+            # zip object
+            zipObj = ZipFile("temp/" + keyMode + ".zip", 'w')
+
+            # add Audios
+            for i in range(len(data)):
+                shutil.copy(
+                    "temp/" + data.loc[i, "file"],
+                    "temp/audios"
+                )
+                zipObj.write("temp/audios", "audios/" + data.loc[i, "file"])
+
+            # add CSV
+            zipObj.write("temp/"+keyMode + ".csv", keyMode + ".csv")
+
+        # clean "temp" folder
+        shutil.rmtree('temp')
+
+    def deploy(self):
+        data = self.__transform()
+        self.__generate_partitions(data)
+        self.__create_bundles()
+        print("Fin")
