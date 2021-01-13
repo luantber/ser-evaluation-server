@@ -1,30 +1,42 @@
-@import '~bulma'
-@import "~assets/sass/_navbar.sass"
-@import "~assets/sass/_index.sass"
-@import "~assets/sass/_footer.sass"
-@import "~assets/sass/_challenge.sass"
 
-$footer-background-color: red
+
+// VARIABLES
+$fuente-montserrat: 'Montserrat', sans-serif
+$fuente-roboto: 'Roboto', sans-serif
+$color-contraste: #FE6E6E
+
+@import "~assets/sass/_portada.sass"
+@import "~assets/sass/_whatis.sass"
+@import "~assets/sass/_important.sass"
 
 body
-    // margin: 0 100px
-    padding: 0
-    // font-family: $fuente1
+    margin: 0
+    padding: 0 
+h1,h3,h2 
+    margin: 0
 
+.boton 
+    background: linear-gradient(269.47deg, #FD2683 0.46%, #FD8267 99.58%)
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+    border-radius: 10px
+    border: 0
+    padding: 10px 20px
+    color: white
+    font-family: $fuente-montserrat
+    outline: none
 button:hover
     cursor: pointer
-span
-    -webkit-touch-callout: none
-    -webkit-user-select: none
-    -khtml-user-select: none
-    -moz-user-select: none
-    -ms-user-select: none
-    user-select: none
-
-.container-small
-    padding: 0 30%
-
-.container
-    display: flex
-    min-height: 80vh
-    flex-direction: column
+    // font-weight: 700
+.section-title
+    font-family: $fuente-roboto
+    font-weight: 700
+    font-size: 40px
+.padding5 
+    padding: 30px 5%
+.estructura
+    display: grid
+    grid-template-columns: 10% 90%
+    grid-row-gap: 20px
+    align-items: center
+    &__derecha
+        grid-column:  2

@@ -34,10 +34,23 @@ div
           name='password',
           v-model='user.password'
         )
+    .field
+      label.label Repeat Password Password
+      .control
+        input.input(
+          type='password',
+          placeholder='password',
+          required,
+          name='password',
+          v-model='user.passwordR'
+        )
     center
       button.button.is-link(@click.prevent='register()') Register
 
-  div(v-if='error') Error {{ error.name }}
+  div(v-if='errors.length !== 0')
+    ul
+    template(v-for='error in errors')
+      li {{ error }}
 </template>
 
 <script>
@@ -49,14 +62,21 @@ export default {
         username: '',
         email: '',
         password: '',
+        passwordR: '',
       },
-      error: null,
+      errors: [],
     }
   },
 
   methods: {
     async register() {
+      this.errors = []
       // console.log('Apo')
+      if (this.user.password !== this.user.passwordR) {
+        this.errors.push('Las contraseñas no coinciden')
+        return
+      }
+
       try {
         await axios.post('/signup', {
           email: this.user.email,
@@ -68,8 +88,8 @@ export default {
           data: { email: this.user.email, password: this.user.password },
         })
       } catch (error) {
-        this.error = error
-        console.log('name', error)
+        this.errors.push(error.response.data.txt)
+        console.log('name', error.response)
       }
     },
   },
