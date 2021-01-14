@@ -1,0 +1,27 @@
+.datasets
+    font-family: $fuente-montserrat
+    &__contenedor
+        display: grid
+        grid-template-columns: repeat(3,1fr)
+        justify-items: center
+        &__caja 
+            // background-color: red
+            width: 70%
+            text-align: center
+            border-radius: 10px
+            box-shadow: $shadow
+            padding-top: 20px
+            padding-bottom: 40px
+            // transition-duration:  0.1s
+            // opacity: 0
+            &__title 
+                font-family: $fuente-roboto
+                font-weight: 700
+            &__datos 
+                font-family: $fuente-montserrat
+                margin: 0
+        &__caja:hover
+            color: white
+            // opacity: 1
+            background: $color-gradiente
+

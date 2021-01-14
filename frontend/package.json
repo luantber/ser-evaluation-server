@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@nuxtjs/auth-next": "^5.0.0-1608252104.47a4304",
-    "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/axios": "^5.12.5",
     "@prettier/plugin-pug": "^1.13.1",
     "bulma": "^0.9.1",
     "core-js": "^3.6.5",

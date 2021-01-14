@@ -1,6 +1,6 @@
 <template lang="pug">
 .estructura.padding5
-  img(src='~static/puntos.png')
+  img(src='~static/puntos.png', alt="icon")
   h2.section-title Datasets
   section.estructura__derecha.datasets
     .datasets__contenedor
@@ -17,7 +17,7 @@
         p.datasets__contenedor__caja__datos + 500 files
         p.datasets__contenedor__caja__datos + 4gb train data
 
-    h5 Datasets format:
+    h4 Datasets format:
     p Each dataset is contained in a “.zip” file, example:
     ul 
       li validation.zip

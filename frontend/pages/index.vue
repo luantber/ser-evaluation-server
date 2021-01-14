@@ -5,6 +5,13 @@ div
     Whatis
     Important
     Datasets
+    Guide
+    Organizers
+    Thanks
+    Sponsors
+    Faq
+    Contact
+    Footer
 </template>
 
 <script>
