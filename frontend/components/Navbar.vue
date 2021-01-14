@@ -16,9 +16,10 @@ div
 
     template(v-else)
       .navbarfull___item
-        NuxtLink(to='/register') Register
-      .navbarfull___item
         NuxtLink(to='/login') Login
+      .navbarfull___item
+        NuxtLink(to='/register')
+          button.boton Register
 
       //- .navbarfull___item
       //-     span.material-icons.navbarfull__store person

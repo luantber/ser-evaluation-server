@@ -1,6 +1,7 @@
 <template lang="pug">
 div
   section.portada
+    Navbar
     center
       h1.portada__titulo Speech Emotion Recognition Challenge
       h3.portada__fechas February 15th - March 20th, 2021
