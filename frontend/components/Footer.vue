@@ -1,11 +1,12 @@
-<template>
-  <footer class="footer">
-    <div class="content has-text-centered">
-      <p>
-        Designed by Luis Bernal Chahuayo and Alvaro Cuno
-        <strong>|</strong> Speech Emotion Recognition
-        <a href="http://kusisqa.unsa.edu.pe/"> (Kusisqa Project) </a>
-      </p>
-    </div>
-  </footer>
+<template lang="pug">
+.footer
+  div
+    img(src='~static/logo_final.png')
+  .footer__derechos
+    p
+      a(href='http://kusisqa.unsa.edu.pe/es/inicio/', target='_blank') Proyecto Kusisqa
+      span &nbsp; - Todos los derechos reservados
+  div
+    h5 Contacto
+    p lbernal@unsa.edu.pe
 </template>

@@ -5,6 +5,11 @@ import pandas as pd
 import torch
 import torchaudio
 
+import math
+import shutil
+from zipfile import ZipFile
+
+
 '''
 Esta clase leera un archivo inicial .csv de la forma:
 
@@ -21,17 +26,18 @@ class Generator():
     Los resultados se ubicarán en /output/ravdes/ 
     '''
 
-    def __init__(self, input_path, output_folder, name_dataset):
+    def __init__(self, input_path, input_folder, output_folder, name_dataset):
 
         self.input_path = input_path  # CSV path
-        self.name_dataset = name_dataset
+        self.input_folder = input_folder
+        self.name_dataset = name_dataset  # nombre dataset (ravdess)
         self.output_folder = os.path.join(
             output_folder, self.name_dataset)  # Where to locate the output files
 
         self.modes = {
             'train': {
                 "percentage": 0.55,
-                "labels": True
+                "labels": True,
             },
             'validation': {
                 "percentage": 0.15,
@@ -70,28 +76,85 @@ class Generator():
     """
 
     def __transform(self):
-        os.makedirs(self.output_folder, "temp")
+        if not os.path.exists("temp"):
+            os.makedirs("temp")
 
         data = pd.read_csv(self.input_path)
-        data = data.sample(frac=1)
-        # data = data.sample(frac=1).reset_index(drop=True)
+        # data = data.sample(frac=1)
+        data = data.sample(frac=1, random_state=52).reset_index(drop=True)
 
         # Aquí irán operaciones para transformar los audios:
         for i in range(len(data)):
 
-            name_file = data.loc[i, "file"]
+            name_file = os.path.join(self.input_folder, data.loc[i, "file"])
 
             audio, sr = torchaudio.load(name_file)
 
-            nuevo_name = "temp/" + str(i) + ".wav"
+            nuevo_name = str(i) + ".wav"
             data.loc[i, "file"] = nuevo_name
 
-            torchaudio.save(nuevo_name, audio, sr)
+            torchaudio.save("temp/"+nuevo_name, audio, sr)
 
-    def generate_partitions(self):
-        end = 0
-        suma = 0
-        for k in self.modes:
-            begin = int(end)
-            end = int(begin + self.modes[k]["percentage"]* len(files_wav))    
-    
+        return data
+
+    def __generate_partitions(self, data):
+        size = len(data)
+        for keyMode in self.modes:
+            # Esta funcion obtiene los primeros  n% de size
+            partition = data.head(
+                math.ceil(size * self.modes[keyMode]["percentage"]))
+            # labels
+            if self.modes[keyMode]["labels"]:
+                # Pass with all features
+                partition.to_csv("temp/"+keyMode + ".csv", index=False)
+            else:
+                partition["file"].to_csv("temp/"+keyMode + ".csv", index=False)
+                partition.to_csv("temp/"+keyMode + "_answers.csv", index=False)
+
+            data = data.drop(partition.index)
+
+        print(len(data))
+        assert(len(data) == 0)
+
+    def __create_bundles(self):
+        for keyMode in self.modes:
+
+            csv_file = "temp/"+keyMode + ".csv"
+            data = pd.read_csv(csv_file)
+
+            # shutil.copy(
+            #     csv_file,
+            #     self.output_folder
+            # )
+
+            if not self.modes[keyMode]["labels"]:
+                shutil.copy(
+                    "temp/"+keyMode + "_answers.csv",
+                    self.output_folder
+                )
+
+            # Crear audios temporal
+            # if not os.path.exists(os.path.join("temp", "audios")):
+            #     os.makedirs(os.path.join("temp", "audios"))
+
+            # zip object
+            zipObj = ZipFile(os.path.join(
+                self.output_folder, keyMode + ".zip"), 'w')
+
+            # add Audios
+            for i in range(len(data)):
+
+                zipObj.write(
+                    "temp/" + data.loc[i, "file"], "audios/" + data.loc[i, "file"])
+
+            # add CSV
+            zipObj.write("temp/"+keyMode + ".csv", keyMode + ".csv")
+
+        # clean "temp" folder
+        shutil.rmtree('temp')
+
+    def deploy(self):
+        data = self.__transform()
+        self.__generate_partitions(data)
+        self.__create_bundles()
+        print("Fin")

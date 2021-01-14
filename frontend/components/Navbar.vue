@@ -3,7 +3,7 @@ div
   .navbarfull
     .navbarfull__logo
       NuxtLink(to='/')
-        img(src='~static/logo_nuevo.jpg')
+        img(src='~static/logo_final.png')
 
     .navbarfull___item 
       NuxtLink(to='/challenges') Challenges
@@ -16,9 +16,10 @@ div
 
     template(v-else)
       .navbarfull___item
-        NuxtLink(to='/register') Register
-      .navbarfull___item
         NuxtLink(to='/login') Login
+      .navbarfull___item
+        NuxtLink(to='/register')
+          button.boton Register
 
       //- .navbarfull___item
       //-     span.material-icons.navbarfull__store person
@@ -26,7 +27,7 @@ div
   .navbarmov
     .navbarmov__logo
       NuxtLink(to='/')
-        img(src='~static/logo_nuevo.jpg')
+        img(src='~static/logo_final.png')
     .navbarmov__item
       span.material-icons(@click='barra()') {{ boton }}
 
