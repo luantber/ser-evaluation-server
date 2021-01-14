@@ -16,24 +16,29 @@ def create_csv():
         # "actor"
     ]
 
-    folder_name = 'Audio_Speech_Actors_01-24'
-    input_folder = "../../datasets/ravdess"
+    folder_name = 'CORPUS_ESPANOL-PERU'
+    input_folder = "../../datasets/"
 
     files_wav = glob.glob(os.path.join(
         input_folder, folder_name) + '/**/*.wav', recursive=True)
 
-    with open("output/ravdess_general.csv", mode='w') as new_csv_file:
+    with open("output/kusisqa_general.csv", mode='w') as new_csv_file:
         new_csv_file = csv.writer(new_csv_file, delimiter=',')
         new_csv_file.writerow(features)
         for f in files_wav:
-            filename = os.path.basename(f)
-            file_features = filename[:-4].split('-')
-            file_features = [int(f)-1 for f in file_features]
-            new_csv_file.writerow([f] + file_features[2:3])  # solo emotion
+            try:
+                filename = os.path.basename(f)
+                file_features = filename[:-4].split('-')
+                print(f)
+                file_features = [int(f)-1 for f in file_features]
+                new_csv_file.writerow([f] + file_features[2:3])  # solo emotion
+            except:
+                print(f, "can't read")
+                pass
 
 
 create_csv()
-g = Generator("output/ravdess_general.csv",
-              "", "output", "ravdess")
+g = Generator("output/kusisqa_general.csv",
+              "", "output", "kusisqa")
 
 g.deploy()

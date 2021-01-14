@@ -1,9 +1,10 @@
 <template lang="pug">
 div 
-  Portada 
-  Whatis
-  Important
-  Datasets
+  Portada
+  .general
+    Whatis
+    Important
+    Datasets
 </template>
 
 <script>
