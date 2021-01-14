@@ -3,7 +3,7 @@ div
   .navbarfull
     .navbarfull__logo
       NuxtLink(to='/')
-        img(src='~static/logo_nuevo.jpg')
+        img(src='~static/logo_final.png')
 
     .navbarfull___item 
       NuxtLink(to='/challenges') Challenges
@@ -27,7 +27,7 @@ div
   .navbarmov
     .navbarmov__logo
       NuxtLink(to='/')
-        img(src='~static/logo_nuevo.jpg')
+        img(src='~static/logo_final.png')
     .navbarmov__item
       span.material-icons(@click='barra()') {{ boton }}
 

@@ -4,20 +4,26 @@ import jwt from "jsonwebtoken";
 
 const router = Router();
 
-router.post(
-  "/signup",
-  passport.authenticate("signup", { session: false }),
-  async (req, res) => {
-    try {
-      res.json({
-        message: "Signup successful",
-        user: { _id: req.user._id, email: req.user.email },
-      });
-    } catch (error) {
-      res.status(400).json(error);
+router.post("/signup", async (req, res) => {
+  passport.authenticate(
+    "signup",
+    { session: false },
+    async (err, user, info) => {
+      if (err || !user)
+        return res
+          .status(400)
+          .json({
+            txt: "User or password already exists",
+            details: info.message,
+          });
+      if (user)
+        res.json({
+          message: "Signup successful",
+          user: { _id: req.user._id, email: req.user.email },
+        });
     }
-  }
-);
+  )(req, res);
+});
 
 router.post("/login", async (req, res, next) => {
   console.log(req.body);
@@ -30,6 +36,7 @@ router.post("/login", async (req, res, next) => {
         const error = new Error("An error occurred. " + info.message);
 
         // return next(error);
+
         return res.status(400).json(error);
       }
 
