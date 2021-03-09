@@ -20,7 +20,7 @@ def generar_csv():
 
     # dialog/EmoEvaluation/Categorical
 
-    input_folder = "../../datasets/IEMOCAP_full_release"
+    input_folder = "../datasets/IEMOCAP_full_release"
 
     files_wav = glob.glob(os.path.join(
         input_folder, "") + '/**/sentences/wav/**/*.wav', recursive=True)
@@ -36,12 +36,12 @@ def generar_csv():
     for f in files_wav:
         filename = os.path.basename(f)
         dic[filename[:-4]] = [f, 0]
-        print(filename[:-4])
+        # print(filename[:-4])
 
     for f in files_cat:
         data = pd.read_csv(f, delimiter=":", header=None,
                            names=["file", "emotion", "emotion2"])
-        print(data)
+        # print(data)
 
         for i in range(len(data)):
             file_ = data.loc[i, "file"].strip()

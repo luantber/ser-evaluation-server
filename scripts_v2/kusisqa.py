@@ -17,7 +17,7 @@ def create_csv():
     ]
 
     folder_name = 'CORPUS_ESPANOL-PERU'
-    input_folder = "../../datasets/"
+    input_folder = "../datasets/"
 
     files_wav = glob.glob(os.path.join(
         input_folder, folder_name) + '/**/*.wav', recursive=True)
@@ -29,7 +29,7 @@ def create_csv():
             try:
                 filename = os.path.basename(f)
                 file_features = filename[:-4].split('-')
-                print(f)
+                # print(f)
                 file_features = [int(f)-1 for f in file_features]
                 new_csv_file.writerow([f] + file_features[2:3])  # solo emotion
             except:

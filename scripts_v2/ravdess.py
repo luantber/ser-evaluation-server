@@ -17,7 +17,7 @@ def create_csv():
     ]
 
     folder_name = 'Audio_Speech_Actors_01-24'
-    input_folder = "../../datasets/ravdess"
+    input_folder = "../datasets/ravdess"
 
     files_wav = glob.glob(os.path.join(
         input_folder, folder_name) + '/**/*.wav', recursive=True)

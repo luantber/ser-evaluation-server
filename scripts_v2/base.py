@@ -33,6 +33,8 @@ class Generator():
         self.name_dataset = name_dataset  # nombre dataset (ravdess)
         self.output_folder = os.path.join(
             output_folder, self.name_dataset)  # Where to locate the output files
+        
+        self.seconds = 0
 
         self.modes = {
             'train': {
@@ -64,12 +66,12 @@ class Generator():
         Revisar errores 
         """
         if not os.path.isfile(input_path):
-            print("No existe", input_path)
+            print("No existe ", input_path)
 
         # Crear Ouput folder si no existe
         if not os.path.exists(self.output_folder):
             os.makedirs(self.output_folder)
-            print("No existe" + self.output_folder + " ... Creando")
+            print("No existe " + self.output_folder + " ... Creando")
 
     """
     This function makes copies of files and preprocess it 
@@ -89,6 +91,11 @@ class Generator():
             name_file = os.path.join(self.input_folder, data.loc[i, "file"])
 
             audio, sr = torchaudio.load(name_file)
+            # print(sr, audio.shape )
+
+
+            self.seconds += int( audio.shape[1] / sr )
+            print( self.seconds , "secs" , round(self.seconds / 60, 2) , "mins", round(self.seconds / 3600, 2 ) , "hours" )
 
             nuevo_name = str(i) + ".wav"
             data.loc[i, "file"] = nuevo_name
@@ -113,7 +120,7 @@ class Generator():
 
             data = data.drop(partition.index)
 
-        print(len(data))
+        print("Sobrantes despues de particiones: ", len(data))
         assert(len(data) == 0)
 
     def __create_bundles(self):

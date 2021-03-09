@@ -29,7 +29,7 @@ export default {
   css: ['@/assets/sass/main.sass'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [{ src: '~plugins/showdown.js' }],
+  plugins: [],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -44,7 +44,6 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next',
   ],
   env: {
     baseUrl: process.env.BASE_URL_API || 'http://localhost:1337',
@@ -57,35 +56,7 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
-
-  auth: {
-    redirect: {
-      login: '/login',
-      logout: '/',
-      callback: false,
-      home: '/challenges',
-    },
-    strategies: {
-      local: {
-        endpoints: {
-          login: {
-            url: process.env.BASE_URL_API + '/login',
-            method: 'post',
-            propertyName: 'token',
-          },
-          // logout: { url: '/api/auth/logout', method: 'post' },
-          logout: false,
-          // user: false,
-          user: {
-            url: process.env.BASE_URL_API + '/users/me',
-            method: 'get',
-            propertyName: false,
-          },
-        },
-        autoFetchUser: true,
-      },
-    },
-  },
+ 
 
   server: {
     port: 3001,

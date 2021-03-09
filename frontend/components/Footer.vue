@@ -1,7 +1,7 @@
 <template lang="pug">
 .footer
   div
-    img(src='~static/logo_final.png')
+    img(src='~static/logo_final.png' )
   .footer__derechos
     p
       a(href='http://kusisqa.unsa.edu.pe/es/inicio/', target='_blank') Proyecto Kusisqa
