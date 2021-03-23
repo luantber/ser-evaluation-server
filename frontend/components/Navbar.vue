@@ -6,7 +6,7 @@ div
         img(src='~static/logo_final.png')
 
     .navbarfull___item 
-      NuxtLink(to='/challenges') Datasets
+      NuxtLink(to='/') Datasets
 
     //- template(v-if='this.$auth.loggedIn')
     //-   .navbarfull___item Your Submissions
@@ -19,7 +19,7 @@ div
     //-     NuxtLink(to='/login') Login
 
     .navbarfull___item
-      NuxtLink(to='/register')
+      NuxtLink(to='/')
         button.boton Register
 
       //- .navbarfull___item
