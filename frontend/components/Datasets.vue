@@ -1,5 +1,5 @@
 <template lang="pug">
-.estructura.padding5
+.estructura.padding5#datasets
   img(src='~static/puntos.png', alt="icon")
   h2.section-title Datasets
   section.estructura__derecha.datasets
@@ -42,5 +42,17 @@
       li 1010.wav,3
       li . . .  
     p Test and challenge files don’t contain the “emotion” column.
-    p The details of the code of emotions are posted in each challenge site.
+    
+    h4 Datasets Emotions: 
+    p Kusisqa Dataset and RAVDESS: Emotion (01 = neutral, 02 = calm, 03 = happy, 04 = sad, 05 = angry, 06 = fearful, 07 = disgust, 08 = surprised).
+    p Ravdess Emotions are self-descriptive: Frustration, Neutral state, Excited, Happiness, Neutral state, Sadness, Anger, ... 
+    h4 Datasets URLs
+    ul(style="text-decoration: underline;")
+      li
+        a(href="https://drive.google.com/drive/folders/136KPFof4mJM7lc5ut_a4N8yhjeB2OGRc?usp=sharing" target="_blank") RAVDESS Datasets
+      li 
+        a(href="https://drive.google.com/drive/folders/1xG9BXMO-hdXM_ME26MVZ711QJj-1roqb?usp=sharing" target="_blank") Kusisqa Datasets
+      li
+        a(href="https://drive.google.com/drive/folders/1F5D5yd0ZCJajotC-KpliDOKPM1SqYMjq?usp=sharing" target="_blank") IEMOCAP Datasets
+
 </template>

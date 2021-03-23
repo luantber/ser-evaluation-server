@@ -6,7 +6,7 @@ div
         img(src='~static/logo_final.png')
 
     .navbarfull___item 
-      NuxtLink(to='/') Datasets
+      NuxtLink(to='#datasets') Datasets
 
     //- template(v-if='this.$auth.loggedIn')
     //-   .navbarfull___item Your Submissions
@@ -19,7 +19,7 @@ div
     //-     NuxtLink(to='/login') Login
 
     .navbarfull___item
-      NuxtLink(to='/')
+      a(href='https://forms.gle/vtuSdz5Z4MvWW5yZ8' target="_blank")
         button.boton Register
 
       //- .navbarfull___item
@@ -34,9 +34,13 @@ div
       span.material-icons(@click='barra()') {{ boton }}
 
   .menumov(v-if='boton !== "menu"')
-    .menumov___item Datasets
+    .menumov___item
+      NuxtLink(to='#datasets')
+        span Datasets
     //- .menumov___item Your Submission
-    .menumov___item Registerw
+    .menumov___item
+      a(href='https://forms.gle/vtuSdz5Z4MvWW5yZ8' target="_blank")
+        span Register
     //- .menumov___item Login 
     //- .menumov___item
     //-   span.material-icons.navbarmov__store persone
