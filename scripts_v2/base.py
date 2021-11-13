@@ -36,25 +36,31 @@ class Generator():
         
         self.seconds = 0
 
+        # self.modes = {
+        #     'train': {
+        #         "percentage": 0.55,
+        #         "labels": True,
+        #     },
+        #     'validation': {
+        #         "percentage": 0.15,
+        #         "labels": True
+        #     },
+        #     'test': {
+        #         "percentage": 0.15,
+        #         "labels": False
+        #     },
+        #     'challenge': {
+        #         "percentage": 0.15,
+        #         "labels": False
+        #     },
+        # }
+
         self.modes = {
             'train': {
-                "percentage": 0.55,
+                "percentage": 1,
                 "labels": True,
-            },
-            'validation': {
-                "percentage": 0.15,
-                "labels": True
-            },
-            'test': {
-                "percentage": 0.15,
-                "labels": False
-            },
-            'challenge': {
-                "percentage": 0.15,
-                "labels": False
-            },
+            }
         }
-
         """
         Assert modes
         """
@@ -93,14 +99,21 @@ class Generator():
             audio, sr = torchaudio.load(name_file)
             # print(sr, audio.shape )
 
-
+            if audio.shape[0] == 2: 
+                # print(audio.shape , audio[0].mean() , audio[0].std(),"___" ,audio[1].mean() , audio[1].std() )
+                # audio_mono = torch.mean(audio, dim=0, keepdim=True)
+                audio_mono = audio[0].unsqueeze(0)
+                # print(audio_mono.shape, audio_mono.mean() , audio_mono.std() )
+            else: 
+                audio_mono = audio
+            
             self.seconds += int( audio.shape[1] / sr )
             print( self.seconds , "secs" , round(self.seconds / 60, 2) , "mins", round(self.seconds / 3600, 2 ) , "hours" )
 
             nuevo_name = str(i) + ".wav"
             data.loc[i, "file"] = nuevo_name
-
-            torchaudio.save("temp/"+nuevo_name, audio, sr)
+            print(name_file, nuevo_name)
+            torchaudio.save("temp/"+nuevo_name, audio_mono, sr , bits_per_sample=16)
 
         return data
 

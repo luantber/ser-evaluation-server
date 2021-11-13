@@ -28,10 +28,13 @@ def create_csv():
         for f in files_wav:
             try:
                 filename = os.path.basename(f)
+                # print(filename)
+
                 file_features = filename[:-4].split('-')
-                # print(f)
+
                 file_features = [int(f)-1 for f in file_features]
-                new_csv_file.writerow([f] + file_features[2:3])  # solo emotion
+                # print(file_features,[f] + file_features[3:4])
+                new_csv_file.writerow([f] + file_features[3:4])  # solo emotion
             except:
                 print(f, "can't read")
                 pass
