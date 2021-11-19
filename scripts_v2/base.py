@@ -24,6 +24,7 @@ class Generator():
     name_dataset = "ravdess"
 
     Los resultados se ubicarán en /output/ravdes/ 
+    
     '''
 
     def __init__(self, input_path, input_folder, output_folder, name_dataset):
